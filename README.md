@@ -2,7 +2,7 @@
 
 ![editor](editing.gif)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Folokobayusuf%2Fphoto-editor&env=FXN_ACCESS_KEY&envDescription=Function%20access%20key%20for%20making%20predictions.&envLink=https%3A%2F%2Fwww.fxn.ai%2Fsettings%2Fdeveloper&project-name=photo-editor&repository-name=photo-editor&redirect-url=https%3A%2F%2Fdocs.fxn.ai%2Fintroduction&demo-title=Photo%20Editor&demo-description=Web-based%20photo%20editor%20powered%20by%20Python%20and%20WebAssembly.)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Folokobayusuf%2Fphoto-editor&env=FXN_ACCESS_KEY&envDescription=Create%20a%20Function%20access%20key%20to%20make%20predictions.&envLink=https%3A%2F%2Fwww.fxn.ai%2Fsettings%2Fdeveloper&project-name=photo-editor&repository-name=photo-editor&redirect-url=https%3A%2F%2Fdocs.fxn.ai%2Fintroduction&demo-title=Photo%20Editor&demo-description=Web-based%20photo%20editor%20powered%20by%20Python%20and%20WebAssembly.)
 
 This is a sample project that explores powering React apps with Python and WebAssembly. It uses 
 [Function](https://docs.fxn.ai/predictors/create) to compile and run an image editing function 
