@@ -9,24 +9,24 @@ This is a sample project that explores powering React apps with Python and WebAs
 written in Python.
 
 ## Setup Instructions
-1. Clone the project
-2. Install dependencies:
-    ```sh
-    # Install deps
-    $ npm install
-    ```
-3. Login to [Function](https://www.fxn.ai/settings/developer) and create an access key. Then create a `.env.local` file and 
-place your access key:
-    ```sh
-    # Function
-    FXN_ACCESS_KEY="fxn_..."
-    ```
-4. Start the dev server:
-    ```sh
-    # Start the dev server
-    $ npm run dev
-    ```
-5. Naviate to [http://localhost:3000](http://localhost:3000) to use the editor!
+First, clone the project and install dependencies:
+```sh
+# Install deps
+$ npm install
+```
+
+Next, login to [Function](https://www.fxn.ai/settings/developer) and create an access key.
+Then create a `.env.local` file and place your access key:
+```sh
+# Function
+FXN_ACCESS_KEY="fxn_..."
+```
+
+Start the dev server and navigate to [http://localhost:3000](http://localhost:3000) to use the editor!
+```sh
+# Start the dev server
+$ npm run dev
+```
 
 ## How it Works
 The photo editor is a plain Next.js app built with Tailwind CSS and Shadcn UI. With the UI setup, the actual image editing 
@@ -51,7 +51,24 @@ def edit_image (
     return result
 ```
 
-This Python function is then compiled to WebAssembly using [Function](https://docs.fxn.ai/predictors/create):
+This Python function is then compiled to WebAssembly using [Function](https://docs.fxn.ai/predictors/create). First, install 
+the Function CLI:
+```sh
+# Install the Function CLI
+$ pip install --upgrade fxn
+```
+
+Then login:
+```sh
+# Login to the Function CLI
+$ fxn auth login <access key>
+```
+
+Finally, compile the function:
+```sh
+# Compile the Python function
+$ fxn compile --overwrite editor.py
+```
 
 ![compiling the function](compile.gif)
 
