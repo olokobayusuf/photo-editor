@@ -14,10 +14,6 @@ export function loadImageData (file: File): Promise<Image> {
         const context = canvas.getContext("2d")!;
         context.drawImage(img, 0, 0);
         const imageData = context.getImageData(0, 0, img.width, img.height);
-
-        console.log(imageData.data.slice(0, 8))
-
-
         resolve({
           data: imageData.data,
           width: imageData.width,

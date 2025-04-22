@@ -2,16 +2,17 @@
 
 import clsx from "clsx"
 import { Function, type Image } from "fxnjs"
+import { EyeIcon, EyeSlashIcon, PhotoIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { EyeIcon, EyeSlashIcon, PhotoIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { toast } from "sonner"
 import { loadImageData } from "@/lib/io"
 import { FilterPanel, type Filters } from "@/components/filterPanel"
 import { Button } from "@/components/ui/button"
 import { Toggle } from "@/components/ui/toggle"
 
 const fxn = new Function({ url: "/api" });
-const PREDICTOR_TAG = "@yusuf/photo-editor";
+const PREDICTOR_TAG = "@yusuf/photokit";
 
 export default function Editor () {
   const [image, setImage] = useState<Image | null>(null);
@@ -19,6 +20,7 @@ export default function Editor () {
   const [showOriginal, setShowOriginal] = useState(false);
   const [predictorLoaded, setPredictorLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Handle uploaded image
   const onDrop = useCallback(async (files: File[]) => {
     if (files.length === 0)
       return;
@@ -30,11 +32,22 @@ export default function Editor () {
     accept: { "image/*": [".png", ".jpeg", ".jpg"] },
     maxFiles: 1
   });
+  // Preload the predictor when the page opens
   useEffect(() => {
-    fxn.predictions.create({ tag: PREDICTOR_TAG })
-      .then(() => setPredictorLoaded(true))
-      .catch(err => console.error(err)); // INCOMPLETE // Notify
+    const preload = fxn.predictions.create({ tag: PREDICTOR_TAG, inputs: { } });
+    toast.promise(preload, {
+      loading: "Preloading predictor...",
+      success: () => {
+        setPredictorLoaded(true);
+        return "Preloaded predictor."
+      },
+      error: err => ({
+        message: "Failed to preload predictor.",
+        description: err.message
+      })
+    });
   }, []);
+  // Apply filters to the current image
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !image || !predictorLoaded)
@@ -52,23 +65,21 @@ export default function Editor () {
     }
     const applyFilter = async () => {
       const prediction = await fxn.predictions.create({
-        tag: "@yusuf/photo-editor",
+        tag: PREDICTOR_TAG,
         inputs: { image, contrast: filters.contrast / 100 }
       });
       console.log(prediction.latency)
       if (prediction.error) {
-        console.error(prediction.error); // INCOMPLETE // Show notification
+        toast.error(prediction.error);
         return;
       }
       const result = prediction.results![0] as Image;
-
-      console.log(result.data.slice(0, 8))
-
       imageData.data.set(result.data);
       context.putImageData(imageData, 0, 0);
-    };
+    }; 
     applyFilter();
   }, [image, filters, showOriginal, predictorLoaded]);
+  // Render the page
   return (
     <div className="">
       <main className="h-screen text-gray-200 flex flex-col backdrop-blur-lg backdrop-contrast-150 backdrop-brightness-75 bg-black">
